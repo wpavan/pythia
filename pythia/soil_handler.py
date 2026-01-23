@@ -1,3 +1,5 @@
+__license__ = "BSD-3-Clause"
+
 def findSoilProfile(profile, soilFiles):
     profile = "*{}".format(profile)
     for sf in soilFiles:
@@ -157,4 +159,5 @@ def calculateICLayerData(soilData, run):
             calculateH2O(run["icsw%"], slll, sdul),
             [icnd * 0.1 for icnd in icndist],
             [icnd * 0.9 for icnd in icndist],
-        ])
+        ]
+    )

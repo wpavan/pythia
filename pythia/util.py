@@ -1,25 +1,53 @@
+__license__ = "BSD-3-Clause"
+
 import datetime
+import logging
 
 import pythia.functions
 
 
 def to_julian_date(d):
-    return d.strftime("%y%j")
+    try:
+        return d.strftime("%y%j")
+    except ValueError:
+        logging.error("Unable to convert %s to a julian date", d)
+        return None
+
+
+def to_julian_date_4(d):
+    try:
+        return d.strftime("%Y%j")
+    except ValueError:
+        logging.error("Unable to convert %s to a julian date", d)
+        return None
 
 
 def to_iso_date(d):
-    return d.strftime("%Y-%m-%d")
+    try:
+        return d.strftime("%Y-%m-%d")
+    except ValueError:
+        logging.error("Unable to convert %s to an ISO date", d)
+        return None
 
 
 def from_julian_date(s):
-    return datetime.datetime.strptime(s, "%y%j").date()
+    try:
+        return datetime.datetime.strptime(s, "%y%j").date()
+    except ValueError:
+        pass
+    try:
+        return datetime.datetime.strptime(s, "%Y%j").date()
+    except ValueError:
+        logging.error('"%s" is an invalid julian date format.', s)
+        return None
 
 
 def from_iso_date(s):
     try:
         return datetime.datetime.strptime(s, "%Y-%m-%d").date()
     except ValueError:
-        pass
+        logging.error('"%s" is an invalid ISO date format.', s)
+        return None
 
 
 def get_rasters_list(iterator):
@@ -43,13 +71,13 @@ def get_rasters_dict(iterator):
 
 def translate_coords_news(lat, lng):
     if lat >= 0:
-        y = "{:.3f}N".format(lat).replace(".", "_")
+        y = "{:.4f}N".format(lat).replace(".", "_")
     else:
-        y = "{:.3f}S".format(abs(lat)).replace(".", "_")
+        y = "{:.4f}S".format(abs(lat)).replace(".", "_")
     if lng >= 0:
-        x = "{:.3f}E".format(lng).replace(".", "_")
+        x = "{:.4f}E".format(lng).replace(".", "_")
     else:
-        x = "{:.3f}W".format(abs(lng)).replace(".", "_")
+        x = "{:.4f}W".format(abs(lng)).replace(".", "_")
     return y, x
 
 

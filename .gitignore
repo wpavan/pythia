@@ -2,6 +2,7 @@
 tags
 data/*
 pythia/__pycache__/*
+pythia/.idea/*
 .idea/*
 .vscode/*
 *.pyc
@@ -11,3 +12,8 @@ work/*
 docs/source/_build
 docs/build
 .venv
+dist
+*~
+.python-version
+.idea/
+pythia-data/
